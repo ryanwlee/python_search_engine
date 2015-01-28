@@ -1,0 +1,7 @@
+from crawler import crawler
+c=crawler(None,'urls.txt')
+c.crawl(depth=1)
+list1=c.get_inverted_index()
+list2=c.get_resolved_inverted_index()
+print list1
+print list2

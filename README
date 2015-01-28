@@ -1,0 +1,68 @@
+README for CSC326 lab3
+
+Making search engine using ranking algorithm + crawler
+
+
+Team Member 1:
+Ryan Wooyang Lee
+leeryan2
+996579395
+
+Team Member 2:
+Tingcheng Cui
+cuitingc
+998742491
+
+Public DNS
+http://ec2-54-172-12-199.compute-1.amazonaws.com/
+
+In order to run,
+python server.py
+
+Unit test cases
+We have a.py and b.py to make test db.
+Also script file for test crawler.
+
+###################################################################
+Frontend
+###################################################################
+
+Main page:
+Starting from the main page(/), user can decide which mode they want to use, Anonymous mode or Sign in mode. Obviously, only signed in user can use Sign in mode and only not signed in user can use Anonymous mode. 
+It determines it is signed in or not signed in by reading session. If the user decides and click the button which they want to use, it redirects to its mode.
+
+Error handling:
+Whenever there is a problem, it goes to error pages. Especially when the user tries to access the page or file and it is not exists, it goes to error500.tpl to handle. And whenever click Try Again button, it will redirect to the main page.
+
+Authentication:
+Used same implementation as Lab2, google authentication.
+
+Anonymou mode:
+Simply search mode for not signed in user. When user put keywords, only first keyword will be used for search. Then the front end will query to db file and retrieve results. Also we add features that get each URL's title. Result page format would be
+<title of webpage1> <URL1>
+<title of webpage2> <URL2>
+<title of webpage3> <URL3>
+<title of webpage4> <URL4>
+and so on. The result page will show 10 lists. If it is more than 10, it wil generate pagination. Whenever clicks, it will redirect to /anonymous/<keyword>=<list number>. With this, it will show right result.
+
+Signed In mode:
+It is same as anonymous mode. Only thing different is only signed in user can access and it will show user's information on the right.
+
+
+###################################################################
+Benchmark
+###################################################################
+
+We ran the server on AWS and tested with two computers. Then average them.
+
+Maximum number of connections that can be handled by the server before any connection drops: 45
+
+Maximum number of requests per second (RPS) that can be sustained by the server when operating with maximum number of connections: 57
+
+Average and 99 percentile of response time or latency per request: 17.346 ms, 915 ms
+
+
+###################################################################
+Bonus
+###################################################################
+We implement multithread for backend crawler. Since we use two sqlite database file to store persistent data, these two database can be updated at the same time with two thread. While page_rank and inverted_index are saved to dbFile.db on main thread, other data including doclist, doctable, lexicon, links are saved to dbFile_raw.db on another thread.
